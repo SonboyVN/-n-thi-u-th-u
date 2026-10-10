@@ -19,7 +19,7 @@ function questionContent(q){
   const correct=(answered||graded)&&i===q.answer,wrong=answered&&pick===i&&i!==q.answer;
   const note=correct?(pick===i?'Bạn chọn đúng':'Đáp án đúng'):wrong?'Bạn chọn sai':'';
   return '<label class="opt '+(correct?'correct':wrong?'wrong':'')+'"><input type="radio" name="q'+k+'" value="'+i+'" data-key="'+k+'" '+(pick===i?'checked':'')+'>'+(correct||wrong?'<span class="choice-mark" aria-hidden="true">✓</span>':'')+'<span>'+escape(o)+(note?'<span class="choice-note">'+note+'</span>':'')+'</span></label>';
- }).join('')+(answered?'<div class="feedback '+(pick===q.answer?'correct':'wrong')+'" role="status">'+(pick===q.answer?'✓ Chính xác!':'✓ Chưa đúng. Đáp án đúng: '+escape(q.options[q.answer]))+'</div>':'')+'<button class="one" data-key="'+k+'">Xem đáp án câu này</button><div class="ans" id="a'+k+'"><strong>Đáp án theo đề gốc:</strong> '+escape(q.answer_text)+'</div>';
+ }).join('')+(answered?'<div class="feedback '+(pick===q.answer?'correct':'wrong')+'" role="status">'+(pick===q.answer?'✓ Chính xác!':'✓ Chưa đúng. Đáp án đúng: '+escape(q.options[q.answer]))+'</div>':'')+'<div class="ans" id="a'+k+'"><strong>Đáp án theo đề gốc:</strong> '+escape(q.answer_text)+'</div>';
 }
 function updateStatus(){
  const list=current(),done=list.filter(q=>selected[key(q)]!==undefined),ok=done.filter(q=>selected[key(q)]===q.answer);
@@ -37,6 +37,5 @@ $('questions').addEventListener('change',e=>{
  section.querySelector('input[value="'+value+'"]').focus({preventScroll:true});
  updateStatus();
 });
-$('questions').addEventListener('click',e=>{if(e.target.matches('.one')){let el=$('a'+e.target.dataset.key);el.style.display=el.style.display==='block'?'none':'block'}});
 $('de').onchange=()=>{subset=null;graded=false;render()};$('search').oninput=()=>{subset=null;render()};$('grade').onclick=()=>{graded=true;render()};$('show').onclick=()=>{reveal=!reveal;render()};$('all').onclick=()=>{subset=null;render()};$('random').onclick=()=>{let arr=base().map(key);for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}subset=arr.slice(0,20);graded=false;reveal=false;render()};$('reset').onclick=()=>{selected={};graded=false;reveal=false;render()};render();
 </script></body></html>
